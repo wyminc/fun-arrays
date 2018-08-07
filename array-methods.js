@@ -220,20 +220,44 @@ const lookingLowStates = lowMapping.map(arr => {
 
 lowerSumStates = lookingLowStates.filter(arr => arr !== undefined);
 
-
-// const filteredInterestAmounts = interestAmounts.filter(arr => arr !== undefined);
-
-// sumOfHighInterests = filteredInterestAmounts.reduce((accumulator, currentValue) => {
-//   let answer = accumulator + (currentValue * 0.189);
-//   return ((Math.round(answer * 100) / 100))
-// }, 0);
-
-
 /*
   aggregate the sum of each state into one hash table
   `higherStateSums` should be the sum of all states with totals greater than 1,000,000
  */
 var higherStateSums = null;
+
+var stateHigh = {};
+
+const stateHighObj = acctInfo.map(arr => {
+  if (!stateHigh.hasOwnProperty(arr.state)) {
+    stateHigh[arr.state] = Number(arr.amount);
+  } else {
+    stateHigh[arr.state] = stateHigh[arr.state] + Number(arr.amount);
+  }
+})
+
+const highStates = Object.keys(stateHigh);
+const highSums = Object.values(stateHigh);
+
+const highMapping = highStates.map((value, index) => {
+  return linkContent = {
+    state: value,
+    amount: highSums[index]
+  }
+})
+
+const lookingHighStates = highMapping.map(arr => {
+  if (arr.amount > 1000000) {
+    return arr.amount;
+  }
+})
+
+const higherStateValues = lookingHighStates.filter(arr => arr !== undefined);
+
+higherStateSums = higherStateValues.reduce((accumulator, currentValue) => {
+  let answer = accumulator + currentValue;
+  return ((Math.round(answer * 100) / 100))
+}, 0);
 
 /*
   from each of the following states:
