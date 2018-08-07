@@ -292,18 +292,13 @@ const higherStateSumValueArr = ((Object.values(higherStateSumObj)).map(arr => {
   if (arr > 2550000) {
     return arr;
   }
-})).filter(arr => arr !== undefined);;
-
-console.log(higherStateSumValueArr.length, "WUT??");
-console.log((Object.values(higherStateSumObj)).length, "WUT??2");
+})).filter(arr => arr !== undefined);
 
 if (higherStateSumValueArr.length === (Object.values(higherStateSumObj)).length) {
   areStatesInHigherStateSum = true;
 } else {
   areStatesInHigherStateSum = false;
 };
-
-
 
 /*
   Stretch Goal && Final Boss
@@ -320,6 +315,30 @@ if (higherStateSumValueArr.length === (Object.values(higherStateSumObj)).length)
   otherwise set it to be `false`
  */
 var anyStatesInHigherStateSum = null;
+
+const filteredAnyStatesInHigherStateSum = (acctInfo.filter(arr => arr.state === "WI" || arr.state === "IL" || arr.state === "WY" || arr.state === "OH" || arr.state === "GA" || arr.state === "DE"));
+
+let higherAnyStateSumObj = {};
+
+const higherAnyStateSumConst = filteredAnyStatesInHigherStateSum.map(arr => {
+  if (!higherAnyStateSumObj.hasOwnProperty(arr.state)) {
+    higherAnyStateSumObj[arr.state] = Number(arr.amount);
+  } else {
+    higherAnyStateSumObj[arr.state] = higherAnyStateSumObj[arr.state] + Number(arr.amount);
+  }
+})
+
+const higherAnyStateSumValueArr = ((Object.values(higherAnyStateSumObj)).map(arr => {
+  if (arr > 2550000) {
+    return arr;
+  }
+})).filter(arr => arr !== undefined);
+
+if (higherAnyStateSumValueArr.length > 0) {
+  anyStatesInHigherStateSum = true;
+} else {
+  anyStatesInHigherStateSum = false;
+};
 
 
 module.exports = {
