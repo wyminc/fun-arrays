@@ -276,6 +276,35 @@ higherStateSums = higherStateValues.reduce((accumulator, currentValue) => {
  */
 var areStatesInHigherStateSum = null;
 
+const filteredStatesInHigherStateSum = (acctInfo.filter(arr => arr.state === "WI" || arr.state === "IL" || arr.state === "WY" || arr.state === "OH" || arr.state === "GA" || arr.state === "DE"));
+
+let higherStateSumObj = {};
+
+const higherStateSumConst = filteredStatesInHigherStateSum.map(arr => {
+  if (!higherStateSumObj.hasOwnProperty(arr.state)) {
+    higherStateSumObj[arr.state] = Number(arr.amount);
+  } else {
+    higherStateSumObj[arr.state] = higherStateSumObj[arr.state] + Number(arr.amount);
+  }
+})
+
+const higherStateSumValueArr = ((Object.values(higherStateSumObj)).map(arr => {
+  if (arr > 2550000) {
+    return arr;
+  }
+})).filter(arr => arr !== undefined);;
+
+console.log(higherStateSumValueArr.length, "WUT??");
+console.log((Object.values(higherStateSumObj)).length, "WUT??2");
+
+if (higherStateSumValueArr.length === (Object.values(higherStateSumObj)).length) {
+  areStatesInHigherStateSum = true;
+} else {
+  areStatesInHigherStateSum = false;
+};
+
+
+
 /*
   Stretch Goal && Final Boss
  
