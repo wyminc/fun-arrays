@@ -193,7 +193,6 @@ sumOfHighInterests = filteredInterestAmounts.reduce((accumulator, currentValue) 
 var lowerSumStates = null;
 
 var stateLow = {};
-var stateLowArr = [];
 
 const stateLowObj = acctInfo.map(arr => {
   if (!stateLow.hasOwnProperty(arr.state)) {
@@ -203,7 +202,24 @@ const stateLowObj = acctInfo.map(arr => {
   }
 })
 
-console.log(stateLow)
+const lowStates = Object.keys(stateLow);
+const lowSums = Object.values(stateLow);
+
+const lowMapping = lowStates.map((value, index) => {
+  return linkContent = {
+    state: value,
+    amount: lowSums[index]
+  }
+})
+
+const lookingLowStates = lowMapping.map(arr => {
+  if (arr.amount < 1000000) {
+    return arr.state;
+  }
+})
+
+lowerSumStates = lookingLowStates.filter(arr => arr !== undefined);
+
 
 // const filteredInterestAmounts = interestAmounts.filter(arr => arr !== undefined);
 
