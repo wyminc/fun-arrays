@@ -127,6 +127,9 @@ sumOfInterests = (acctInfo.filter(arr => arr.state === "WI" || arr.state === "IL
  */
 var stateSums = null;
 
+
+
+
 /*
   for all states *NOT* in the following states:
     Wisconsin
