@@ -1,11 +1,19 @@
 var dataset = require('./dataset.json');
 
+var acctInfo = dataset.bankBalances;
+
 /*
   create an array with accounts from bankBalances that are
   greater than 100000
   assign the resulting new array to `hundredThousandairs`
 */
 var hundredThousandairs = null;
+
+let hundredThousand = acctInfo.filter(arr =>
+  arr.amount > 100000
+);
+
+hundredThousandairs = hundredThousand;
 
 /*
   DO NOT MUTATE DATA.
@@ -25,6 +33,16 @@ var hundredThousandairs = null;
   assign the resulting new array to `datasetWithRoundedDollar`
 */
 var datasetWithRoundedDollar = null;
+
+const roundedDollar = acctInfo.map(element => {
+  var rObj = {};
+  rObj["amount"] = element.amount;
+  rObj["state"] = element.state;
+  rObj["rounded"] = Math.round(Number(element.amount));
+  return rObj;
+});
+
+datasetWithRoundedDollar = roundedDollar;
 
 /*
   DO NOT MUTATE DATA.
@@ -51,8 +69,27 @@ var datasetWithRoundedDollar = null;
 */
 var datasetWithRoundedDime = null;
 
+const roundedDime = acctInfo.map(element => {
+  var rObj = {};
+  rObj["amount"] = element.amount;
+  rObj["state"] = element.state;
+  rObj["roundedDime"] = (Math.round(Number(element.amount) * 10) / 10);
+  return rObj;
+});
+
+datasetWithRoundedDime = roundedDime;
+
 // set sumOfBankBalances to be the sum of all value held at `amount` for each bank object
 var sumOfBankBalances = null;
+
+// const sumBalance = (accumulator, currentValue) => accumulator + currentValue;
+
+
+sumOfBankBalances = acctInfo.reduce((accumulator, currentValue) => {
+  let answer = accumulator + Number(currentValue.amount);
+  return ((Math.round(answer * 100)) / 100);
+}, 0);
+
 
 /*
   from each of the following states:
@@ -66,6 +103,11 @@ var sumOfBankBalances = null;
   and then sum it all up into one value saved to `sumOfInterests`
  */
 var sumOfInterests = null;
+
+sumOfInterests = (acctInfo.filter(arr => arr.state === "WI" || arr.state === "IL" || arr.state === "WY" || arr.state === "OH" || arr.state === "GA" || arr.state === "DE")).reduce((accumulator, currentValue) => {
+  let answer = accumulator + (Number(currentValue.amount) * 0.189);
+  return ((Math.round(answer * 100)) / 100);
+}, 0)
 
 /*
   aggregate the sum of bankBalance amounts
@@ -152,15 +194,15 @@ var anyStatesInHigherStateSum = null;
 
 
 module.exports = {
-  hundredThousandairs : hundredThousandairs,
-  datasetWithRoundedDollar : datasetWithRoundedDollar,
-  datasetWithRoundedDime : datasetWithRoundedDime,
-  sumOfBankBalances : sumOfBankBalances,
-  sumOfInterests : sumOfInterests,
-  sumOfHighInterests : sumOfHighInterests,
-  stateSums : stateSums,
-  lowerSumStates : lowerSumStates,
-  higherStateSums : higherStateSums,
-  areStatesInHigherStateSum : areStatesInHigherStateSum,
-  anyStatesInHigherStateSum : anyStatesInHigherStateSum
+  hundredThousandairs: hundredThousandairs,
+  datasetWithRoundedDollar: datasetWithRoundedDollar,
+  datasetWithRoundedDime: datasetWithRoundedDime,
+  sumOfBankBalances: sumOfBankBalances,
+  sumOfInterests: sumOfInterests,
+  sumOfHighInterests: sumOfHighInterests,
+  stateSums: stateSums,
+  lowerSumStates: lowerSumStates,
+  higherStateSums: higherStateSums,
+  areStatesInHigherStateSum: areStatesInHigherStateSum,
+  anyStatesInHigherStateSum: anyStatesInHigherStateSum
 };
