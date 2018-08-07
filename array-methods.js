@@ -125,7 +125,15 @@ sumOfInterests = (acctInfo.filter(arr => arr.state === "WI" || arr.state === "IL
     round this number to the nearest 10th of a cent before moving on.
   )
  */
-var stateSums = null;
+var stateSums = {};
+
+const stateObj = acctInfo.map(arr => {
+  if (!stateSums.hasOwnProperty(arr.state)) {
+    stateSums[arr.state] = Number(arr.amount);
+  } else {
+    stateSums[arr.state] = (Math.round((stateSums[arr.state] + Number(arr.amount)) * 100) / 100);
+  }
+})
 
 
 
@@ -141,13 +149,41 @@ var stateSums = null;
   sum the amount for each state (stateSum)
   take each `stateSum` and calculate 18.9% interest for that state
   sum the interest values that are greater than 50,000 and save it to `sumOfHighInterests`
-
+ 
   note: During your summation (
     if at any point durig your calculation where the number looks like `2486552.9779399997`
     round this number to the nearest 10th of a cent before moving on.
   )
  */
-var sumOfHighInterests = null;
+var sumOfHighInterests = 0;
+
+let highInterestArr = acctInfo.filter(arr => arr.state !== "WI" && arr.state !== "IL" && arr.state !== "WY" && arr.state !== "OH" && arr.state !== "GA" && arr.state !== "DE");
+
+var stateHighSums = {};
+
+const stateHighIntObj = highInterestArr.map(arr => {
+  if (!stateHighSums.hasOwnProperty(arr.state)) {
+    stateHighSums[arr.state] = Number(arr.amount);
+  } else {
+    stateHighSums[arr.state] = stateHighSums[arr.state] + Number(arr.amount);
+  }
+})
+
+const numberAmounts = Object.values(stateHighSums);
+
+const interestAmounts = numberAmounts.map(num => {
+  if ((Math.round((num * 0.189) * 100) / 100) > 50000) {
+    return num;
+  }
+})
+
+const filteredInterestAmounts = interestAmounts.filter(arr => arr !== undefined);
+
+sumOfHighInterests = filteredInterestAmounts.reduce((accumulator, currentValue) => {
+  let answer = accumulator + (currentValue * 0.189);
+  return ((Math.round(answer * 100) / 100))
+}, 0);
+
 
 /*
   set `lowerSumStates` to be an array of two letter state
@@ -155,6 +191,27 @@ var sumOfHighInterests = null;
   in the state is less than 1,000,000
  */
 var lowerSumStates = null;
+
+var stateLow = {};
+var stateLowArr = [];
+
+const stateLowObj = acctInfo.map(arr => {
+  if (!stateLow.hasOwnProperty(arr.state)) {
+    stateLow[arr.state] = Number(arr.amount);
+  } else {
+    stateLow[arr.state] = stateLow[arr.state] + Number(arr.amount);
+  }
+})
+
+console.log(stateLow)
+
+// const filteredInterestAmounts = interestAmounts.filter(arr => arr !== undefined);
+
+// sumOfHighInterests = filteredInterestAmounts.reduce((accumulator, currentValue) => {
+//   let answer = accumulator + (currentValue * 0.189);
+//   return ((Math.round(answer * 100) / 100))
+// }, 0);
+
 
 /*
   aggregate the sum of each state into one hash table
@@ -170,10 +227,10 @@ var higherStateSums = null;
     Ohio
     Georgia
     Delaware
-
+ 
   Check if all of these states have a sum of account values
   greater than 2,550,000
-
+ 
   if true set `areStatesInHigherStateSum` to `true`
   otherwise set it to `false`
  */
@@ -181,7 +238,7 @@ var areStatesInHigherStateSum = null;
 
 /*
   Stretch Goal && Final Boss
-
+ 
   set `anyStatesInHigherStateSum` to be `true` if
   any of these states:
     Wisconsin
